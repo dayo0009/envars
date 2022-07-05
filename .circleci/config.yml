@@ -2,6 +2,19 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+defaults: &defaults
+  docker:
+    - image: circleci/node:13.8.0
+
+commands:
+  print_pipeline_id:
+    description: "A very simple command for demonstration purposes"
+    parameters:
+      id:
+        type: string
+    steps:
+      - run: echo << parameters.id >>
+
 # Define a job to be invoked later in a workflow.
 jobs:
   print-var:
@@ -16,12 +29,17 @@ jobs:
           command:
             echo $MY_UDACITY_DEMO
 
-
+  pipeline-id-command:
+    <<: *defaults
+    steps:
+      - print_pipeline_id:
+          id: << pipeline.id >>
 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  test-print-var:
+  test-command-function:
     jobs:
       - print-var
+      - pipeline-id-command
