@@ -38,17 +38,16 @@ jobs:
   check-on-fail:
     <<: *defaults
     steps:
-      - run: return 1
       - run:
            name: on error
-           command: echo "Hello Error"
+           command: echo "Hello No Error"
            when: on_fail
 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  test-command-function:
+  test-on-fail-function:
     jobs:
       - print-var
       - pipeline-id-command
