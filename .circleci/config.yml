@@ -34,6 +34,15 @@ jobs:
     steps:
       - print_pipeline_id:
           id: << pipeline.id >>
+          
+  check-on-fail:
+    <<: *defaults
+    steps:
+      - run: return 1
+      - run:
+           name: on error
+           command: echo "Hello Error"
+           when: on_fail
 
 
 # Invoke jobs via workflows
@@ -43,3 +52,4 @@ workflows:
     jobs:
       - print-var
       - pipeline-id-command
+      - check-on-fail
